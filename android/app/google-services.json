@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "30519258165",
+    "project_id": "pantheon-yz",
+    "storage_bucket": "pantheon-yz.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:30519258165:android:d77b51579d4e421830d57c",
+        "android_client_info": {
+          "package_name": "com.example.pantheon"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAI5iwu2B97d39kXxX2knUNVjRIjdZszB0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
