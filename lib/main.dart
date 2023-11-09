@@ -30,16 +30,16 @@ class NavigationBarApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => UsersProvider()),
         ChangeNotifierProvider(create: (_) => WorkoutProvider()),
-        ChangeNotifierProvider(create: (_) =>EjercicioProvider()),
+        ChangeNotifierProvider(create: (_) => EjercicioProvider()),
         ChangeNotifierProvider(create: (_) => RecetaProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         initialRoute: "Home",
         routes: <String, WidgetBuilder>{
-          "Home": (BuildContext context) => const HomePage(),
+          "Home": (BuildContext context) => HomePage(),
           "SignIn": (BuildContext context) => const SignIn(),
-          "SignUp": (BuildContext context) => const SignUp(),
+          "SignUp": (BuildContext context) => SignUp(),
           "Navigation": (BuildContext context) => const NavigationExample(),
           "NewTraining": (BuildContext context) => const NewTraining(),
           "WorkoutList": (BuildContext context) => const WorkoutList(),

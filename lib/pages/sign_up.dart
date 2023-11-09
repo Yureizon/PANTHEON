@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:pantheon/pages/all.dart';
+import 'package:pantheon/pages/home_page.dart';
+import 'package:pantheon/pages/sign_in.dart';
 import 'package:pantheon/providers.dart/users_provider.dart';
-import 'package:pantheon/widgets/sign_up_form.dart';
 import 'package:provider/provider.dart';
 
-class SignUp extends StatefulWidget {
+class SignUp extends StatelessWidget {
   const SignUp({super.key});
 
-  @override
-  State<SignUp> createState() => _SignUpState();
-}
-
-class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +22,7 @@ class _SignUpState extends State<SignUp> {
             const Text("PANTHEON", style: TextStyle(fontSize: 38.0, fontWeight: FontWeight.bold, color: Colors.white), textAlign: TextAlign.center,),
             const Text("Sign Up", style: TextStyle(fontSize: 38.0, fontWeight: FontWeight.bold, color: Colors.teal), textAlign: TextAlign.center,),
             //const SignUpForm(),
-            _CreateForm(),
+            CreateForm(),
             const Divider(height: 30.0,),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -47,11 +43,11 @@ class _SignUpState extends State<SignUp> {
   }
 }
 
-class _CreateForm extends StatelessWidget {
+class CreateForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final UsersProvider usersProvider = Provider.of<UsersProvider>(context);
-    usersProvider.resetUserData();
+    // usersProvider.resetUserData();
     return Form(
       key: usersProvider.formKeyUsers,
       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -73,7 +69,12 @@ class _CreateForm extends StatelessWidget {
                 ),
                 contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
               ),
-              onChanged: (value) => usersProvider.name = value,
+              onChanged: (value) {
+                usersProvider.name = value;
+
+                print(usersProvider.name);
+                
+              },
               validator: (value) {
                 return value != '' ? null : 'The field must not be empty';
               },
@@ -172,23 +173,45 @@ class _CreateForm extends StatelessWidget {
               FocusScope.of(context).unfocus();
 
               if (!usersProvider.isValidForm()) return;
-              print(usersProvider.getUserByName(usersProvider.name));
+              String name = usersProvider.name; 
+              usersProvider.getTodo();
+
+              var found = await usersProvider.getUserByName(name);
+
               if (usersProvider.createOrUpdate == "create") {
-                if (usersProvider.getUserByName(usersProvider.name) == true) {
-                  displayDialog(context);
+
+                print('*** BUSCANDO A: $name ***');
+
+                if (found) {
+
+                  print('*** ENTRO: if ***');
+                  usersProvider.getTodo();
+                  displayDialog1(context);
+                  usersProvider.getTodo();
+                  print('*** SALIO: if TRUE ***');
                   return;
+
                 } else {
-                  //usersProvider.addUser();
+
+                  print('*** ENTRO en ELSE ***');
+
+                  usersProvider.addUser();
+                  displayDialog2(context);
+                  print('CONGRATULATIONS!');
                   final route = MaterialPageRoute(
-                    builder: (context) => const NavigationExample()
+                    builder: (context) => HomePage()
                   );
-                  //Navigator.push(context, route);
+                  Navigator.push(context, route);
+                  usersProvider.resetUserData();
+
                 }
+
+                print('*** SALIO del TODO del IF para VALIDAR ***');
               }
               
-              usersProvider.resetUserData();
+              
 
-              usersProvider.isLoading = true;
+              usersProvider.isLoading = false;
               
             },
             child: Container(
@@ -201,7 +224,7 @@ class _CreateForm extends StatelessWidget {
     );
   }
 
-  void displayDialog(BuildContext context) {
+  void displayDialog1(BuildContext context,) {
     showDialog(
       barrierDismissible: false,
       context: context,
@@ -214,6 +237,36 @@ class _CreateForm extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text("El Usuario ya se encuentra registrado.", style: TextStyle(fontSize: 15),),
+              SizedBox(height: 5,),
+              Icon(Icons.warning_rounded, color: Colors.red, size: 60,),
+              SizedBox(height: 5,)
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("Okay"),
+            ),
+          ],
+        );
+      }
+    );
+  }
+
+  void displayDialog2(BuildContext context,) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          elevation: 5,
+          title: const Text("¡REGISTRO EXITOSO!"),
+          shape: RoundedRectangleBorder( borderRadius: BorderRadiusDirectional.circular(10)),
+          content: const Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text("Se ha creado el usuario corectamente.", style: TextStyle(fontSize: 15),),
+              Icon(Icons.verified, color: Colors.green, size: 60,),
               SizedBox(height: 5,)
             ],
           ),

@@ -145,11 +145,12 @@ class DBProvider {
   }
 
   Future<bool> getUserName (String name) async {
+    print('*** NOMBRE ENVIADO: $name ***');
     final Database? db = await database;
     //usando Query para construir la consulta, con where y argumentos posicionales (whereArgs)
     final res = await db!.query('users', where: 'name = ?', whereArgs: [name]);
     // Verifica si hay coincidencias en la lista de resultados
-    print(res);
+    print('*** res de db_privider: $res ****');
     bool userExists = res.isNotEmpty;
     return userExists;
   }

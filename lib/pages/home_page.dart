@@ -4,14 +4,7 @@ import 'package:pantheon/pages/sign_up.dart';
 import 'package:pantheon/providers.dart/users_provider.dart';
 import 'package:provider/provider.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
-
-  @override
-  _HomePageState createState () => _HomePageState();
-}
-
-class _HomePageState extends  State<HomePage> {
+class HomePage extends  StatelessWidget {
   @override
   Widget build(BuildContext context){
 
@@ -62,7 +55,7 @@ class _HomePageState extends  State<HomePage> {
                   ),
                   onPressed: (){
                     final route = MaterialPageRoute(
-                      builder: (context) => const SignUp());
+                      builder: (context) => SignUp());
                       Navigator.push(context, route);
                   },
                   child: const Text("Sign Up", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),),

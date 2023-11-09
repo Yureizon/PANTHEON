@@ -11,7 +11,7 @@ class UsersProvider extends ChangeNotifier {
   String password = '';
   double? weight;
   double? height;
-  String? rol;
+  String rol = 'general';
 
   bool _isLoading = false;
   List<GeneralUser> users = [];
@@ -28,7 +28,7 @@ class UsersProvider extends ChangeNotifier {
   }
 
   Future<GeneralUser> addUser() async {
-    final GeneralUser generalUser = GeneralUser(name: name, weight: weight, height: height, password: password);
+    final GeneralUser generalUser = GeneralUser(name: name, weight: weight, height: height, password: password, rol: rol);
 
     final id = await DBProvider.db.newUser(generalUser);
 
@@ -41,9 +41,20 @@ class UsersProvider extends ChangeNotifier {
     return generalUser;
   }
 
-  getUserByName(String name) async {
+  Future<bool> getUserByName(String name) async {
+    print("Nombre que llega al provider: $name");
     final res = await DBProvider.db.getUserName(name);
     return res;
+  }
+
+  getTodo() {
+    print(''' datos del GETTODO
+      ${name}
+      ${weight}
+      ${height}
+      ${password}
+      '''
+    );
   }
 
   deleteUserById(int id) async {
@@ -73,6 +84,7 @@ class UsersProvider extends ChangeNotifier {
     weight = 0.0;
     height = 0.0;
     createOrUpdate = "create";
+    //notifyListeners();
   }
 
   loadUsers() async {

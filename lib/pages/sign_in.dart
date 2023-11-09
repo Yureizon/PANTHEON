@@ -18,11 +18,11 @@ class _SignInState extends State<SignIn> {
         ),
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 200),
-          children: const <Widget> [
-            Text("WELCOME TO", style: TextStyle(fontSize: 26.0, fontWeight: FontWeight.bold, color: Colors.white), textAlign: TextAlign.center,),
-            Text("PANTHEON", style: TextStyle(fontSize: 38.0, fontWeight: FontWeight.bold, color: Colors.white), textAlign: TextAlign.center,),
-            Text("Sign In", style: TextStyle(fontSize: 38.0, fontWeight: FontWeight.bold, color: Colors.amber), textAlign: TextAlign.center,),
-            Divider(height: 30.0,),
+          children: <Widget> [
+            const Text("WELCOME TO", style: TextStyle(fontSize: 26.0, fontWeight: FontWeight.bold, color: Colors.white), textAlign: TextAlign.center,),
+            const Text("PANTHEON", style: TextStyle(fontSize: 38.0, fontWeight: FontWeight.bold, color: Colors.white), textAlign: TextAlign.center,),
+            const Text("Sign In", style: TextStyle(fontSize: 38.0, fontWeight: FontWeight.bold, color: Colors.amber), textAlign: TextAlign.center,),
+            const Divider(height: 30.0,),
             LoginForm(),
           ],
         ),

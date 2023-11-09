@@ -1,16 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pantheon/providers.dart/users_provider.dart';
-import 'package:pantheon/widgets/input_text.dart';
 import 'package:provider/provider.dart';
 
-class LoginForm extends StatefulWidget {
-  const LoginForm({super.key});
-
-  @override
-  State<LoginForm> createState() => _LoginFormState();
-}
-
-class _LoginFormState extends State<LoginForm> {
+class LoginForm extends StatelessWidget {
 
   String _email = "";
   String _password = "";
@@ -25,39 +17,52 @@ class _LoginFormState extends State<LoginForm> {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       child: Column(
         children: <Widget> [
-          InputText(
-            hint: "Email Address",
-            label: "Email Address",
-            keyboard: TextInputType.emailAddress,
-            icon: const Icon(Icons.verified_user),
-            onChanged: (value){
-              if (value.isNotEmpty) {
-                  _email = value;
-                } else {
-                  _email = '';
-                }
-            },
-            validator: (value){
-              return value != '' ? null : 'The field must not be empty';
-            },
-          ),
-          const Divider(height: 15.0,),
-          InputText(
-              hint: "Password",
-              label: "Password",
-              obsecure: true,
-              icon: const Icon(Icons.lock_outline),
-              onChanged: (value){
-                if (value.isNotEmpty) {
-                  _password = value;
-                } else {
-                  _password = '';
-                }
-              },
-              validator: (value){
+          Container(
+            color: Colors.white54,
+            child: TextFormField(
+              autocorrect: false,
+              keyboardType: TextInputType.emailAddress,
+              initialValue: '',
+              decoration: const InputDecoration(
+                //border: OutlineInputBorder(),
+                hintText: "example: Shaggy",
+                labelText: "User Name",
+                labelStyle: TextStyle(
+                  color: Colors.white,
+                  fontSize: 25.0
+                ),
+                contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+              ),
+              onChanged: (value) => usersProvider.name = value,
+              validator: (value) {
                 return value != '' ? null : 'The field must not be empty';
               },
             ),
+          ),
+          const Divider(height: 15.0,),
+          Container(
+            color: Colors.white54,
+            child: TextFormField(
+              autocorrect: false,
+              keyboardType: TextInputType.visiblePassword,
+              initialValue: '',
+              obscureText: true,
+              decoration: const InputDecoration(
+                //border: OutlineInputBorder(),
+                hintText: "example: 828",
+                labelText: "Password",
+                labelStyle: TextStyle(
+                  color: Colors.white,
+                  fontSize: 25.0
+                ),
+                contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+              ),
+              onChanged: (value) => usersProvider.password = value,
+              validator: (value) {
+                return value != '' ? null : 'The field must not be empty';
+              },
+            ),
+          ),
             const Divider(height: 15.0,),
             MaterialButton(
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
