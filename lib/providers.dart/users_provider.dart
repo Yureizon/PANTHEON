@@ -4,6 +4,7 @@ import 'package:pantheon/providers.dart/db_provider.dart';
 
 class UsersProvider extends ChangeNotifier {
   GlobalKey<FormState> formKeyUsers = GlobalKey<FormState>();
+  GlobalKey<FormState> formKeyUsers2 = GlobalKey<FormState>();
 
   String createOrUpdate = "create";
   int? id;
@@ -27,6 +28,11 @@ class UsersProvider extends ChangeNotifier {
     return formKeyUsers.currentState?.validate() ?? false;
   }
 
+  bool isValidForm2() {
+    print(formKeyUsers2.currentState?.validate());
+    return formKeyUsers2.currentState?.validate() ?? false;
+  }
+
   Future<GeneralUser> addUser() async {
     final GeneralUser generalUser = GeneralUser(name: name, weight: weight, height: height, password: password, rol: rol);
 
@@ -47,12 +53,19 @@ class UsersProvider extends ChangeNotifier {
     return res;
   }
 
+  Future<bool> validateUser(String name, String password) async {
+    print("Nombre que llega al provider: $name");
+    print("Contraseña que llega al provider: $password");
+    final res = await DBProvider.db.validateUserDB(name, password);
+    return res;
+  }
+
   getTodo() {
     print(''' datos del GETTODO
-      ${name}
-      ${weight}
-      ${height}
-      ${password}
+      name: $name
+      peso: $weight
+      altura: $height
+      password: $password
       '''
     );
   }

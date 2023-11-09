@@ -155,6 +155,17 @@ class DBProvider {
     return userExists;
   }
 
+  Future<bool> validateUserDB (String name, String password) async {
+    print('*** NAME ENVIADO: $name ***');
+    print('*** PASSWORD ENVIADO: $password ***');
+    final Database? db = await database;
+    //usando Query para construir la consulta, con where y argumentos posicionales (whereArgs)
+    final res = await db!.query('users', where: 'name = ? and password = ?', whereArgs: [name, password]);
+    print('*** res de db_privider: $res ****');
+    bool userExists = res.isNotEmpty;
+    return userExists;
+  }
+
   Future<List<GeneralUser>> getAllUsers() async {
     final Database? db = await database;
     final res = await db!.query('users');

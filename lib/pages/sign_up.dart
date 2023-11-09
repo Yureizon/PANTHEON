@@ -198,10 +198,6 @@ class CreateForm extends StatelessWidget {
                   usersProvider.addUser();
                   displayDialog2(context);
                   print('CONGRATULATIONS!');
-                  final route = MaterialPageRoute(
-                    builder: (context) => HomePage()
-                  );
-                  Navigator.push(context, route);
                   usersProvider.resetUserData();
 
                 }
@@ -272,7 +268,7 @@ class CreateForm extends StatelessWidget {
           ),
           actions: [
             TextButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: () => Navigator.pushNamed(context, 'Home'),
               child: const Text("Okay"),
             ),
           ],

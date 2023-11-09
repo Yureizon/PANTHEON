@@ -3,9 +3,6 @@ import 'package:pantheon/providers.dart/users_provider.dart';
 import 'package:provider/provider.dart';
 
 class LoginForm extends StatelessWidget {
-
-  String _email = "";
-  String _password = "";
   
   @override
   Widget build(BuildContext context) {
@@ -13,7 +10,7 @@ class LoginForm extends StatelessWidget {
     final UsersProvider usersProvider = Provider.of<UsersProvider>(context);
 
     return Form(
-      key: usersProvider.formKeyUsers,
+      key: usersProvider.formKeyUsers2,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       child: Column(
         children: <Widget> [
@@ -33,7 +30,12 @@ class LoginForm extends StatelessWidget {
                 ),
                 contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
               ),
-              onChanged: (value) => usersProvider.name = value,
+              onChanged: (value) {
+                usersProvider.name = value;
+
+                print(usersProvider.name);
+                
+              },
               validator: (value) {
                 return value != '' ? null : 'The field must not be empty';
               },
@@ -75,11 +77,28 @@ class LoginForm extends StatelessWidget {
                 FocusScope.of(context).unfocus();
                 
                 usersProvider.loadUsers();
-                if (!usersProvider.isValidForm()) return;
-                usersProvider.resetUserData();
+                if (!usersProvider.isValidForm2()) return;
+                String name = usersProvider.name;
+                String password = usersProvider.password;
+                var found = await usersProvider.validateUser(name, password);
+
+                if (found) {
+
+                  print('*** ENTRO: if ***');
+
+                  Navigator.pushNamed(context, "Navigation");
+
+                } else {
+                  displayDialog1(context);
+                }
+
+                usersProvider.getTodo();
+
+                //usersProvider.resetUserData();
+                usersProvider.getTodo();
 
                 usersProvider.isLoading = false;
-                Navigator.pushNamed(context, "Navigation");
+                
                 //actualOptionProvider.selectedOption = 0;
               },
               child: Container(
@@ -103,4 +122,34 @@ class LoginForm extends StatelessWidget {
       )
     );
   }
+
+  void displayDialog1(BuildContext context,) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          elevation: 5,
+          title: const Text("ALERT"),
+          shape: RoundedRectangleBorder( borderRadius: BorderRadiusDirectional.circular(10)),
+          content: const Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text("El Usuario y/o Contraseña es incorrecto.", style: TextStyle(fontSize: 15),),
+              SizedBox(height: 5,),
+              Icon(Icons.warning_rounded, color: Colors.pink, size: 60,),
+              SizedBox(height: 5,)
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("Okay"),
+            ),
+          ],
+        );
+      }
+    );
+  }
+
 }
