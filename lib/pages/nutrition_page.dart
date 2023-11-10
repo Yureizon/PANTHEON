@@ -7,7 +7,7 @@ import 'package:pantheon/widgets/nutrition_card_1.dart';
 import 'package:provider/provider.dart';
 
 class NutritionPage extends StatelessWidget {
-  NutritionPage({super.key});
+  const NutritionPage({super.key});
 
 
   @override

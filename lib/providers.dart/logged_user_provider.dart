@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pantheon/providers.dart/db_provider.dart';
 
 class LoggedUserProvider extends ChangeNotifier {
   int? id;
@@ -28,13 +29,25 @@ class LoggedUserProvider extends ChangeNotifier {
 
   bool esAdmin(){
     if (rol == 'admin') {
-      print('*** ES ADMIN :D ***');
+      //print('*** ES ADMIN :D ***');
       return true;
     }
     else {
-      print('*** no es admin :( ***');
+      //print('*** no es admin :( ***');
       return false;
     }
+  }
+
+  updateWeight() async {
+    final res = await DBProvider.db.updateWeight(weight!, id!);
+    //print('*** updateWeight del PROVIDER: $res'); // retorna 0 si todo es OKAY y -1 si falla
+    notifyListeners(); // Para que los cambios se vean
+  }
+
+  updateHeight() async {
+    final res = await DBProvider.db.updateHeight(height!, id!);
+    //print('*** updateWeight del PROVIDER: $res'); // retorna 0 si todo es OKAY y -1 si falla
+    notifyListeners(); // Para que los cambios se vean
   }
   
 }

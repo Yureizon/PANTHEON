@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:pantheon/providers.dart/logged_user_provider.dart';
 import 'package:pantheon/providers.dart/workout_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -63,6 +64,11 @@ class _List extends StatelessWidget {
   Widget build(BuildContext context) {
 
     WorkoutProvider workoutProvider = Provider.of<WorkoutProvider>(context);
+
+    LoggedUserProvider loggedUserProvider = Provider.of<LoggedUserProvider>(context);
+
+    workoutProvider.userId = loggedUserProvider.id!;
+
     workoutProvider.loadWorkouts();
     final workoutLis = workoutProvider.workoutList;
     

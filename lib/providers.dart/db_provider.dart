@@ -55,8 +55,10 @@ class DBProvider {
         await db.execute('''
           CREATE TABLE workouts (
             id INTEGER PRIMARY KEY,
+            userId INTEGER,
             fecha TEXT,
-            grupo TEXT
+            grupo TEXT,
+            FOREIGN KEY (userId) REFERENCES users(id)
           )
           '''
         );
@@ -189,9 +191,9 @@ class DBProvider {
     return res.isNotEmpty ? res.map((n) => GeneralUser.fromJson(n)).toList() : [];
   }
 
-  Future<List<Workout>> getAllWorkouts() async {
+  Future<List<Workout>> getAllWorkouts(int id) async {
     final Database? db = await database;
-    final res = await db!.query('workouts');
+    final res = await db!.query('workouts', where: 'userId = ?', whereArgs: [id]);
     //Transformamos con la funcion map instancias de nuestro modelo. Si no existen registros, devolvemos una lista vacia
     return res.isNotEmpty ? res.map((n) => Workout.fromJson(n)).toList() : [];
   }
@@ -215,14 +217,37 @@ class DBProvider {
       //
       final Database? db = await database;
       //con updates, se usa el nombre de la tabla, seguido de los valores en formato de Mapa, seguido del where con parametros posicionales y los argumentos finales
-      final res = await db!
-          .update('users', generalUser.toJson(), where: 'id = ?', whereArgs: [generalUser.id]);
+      final res = await db!.update('users', generalUser.toJson(), where: 'id = ?', whereArgs: [generalUser.id]);
       return res;
     } catch (e) {
       print('Error al actualizar el usuario: $e');
       return -1;
     }
     
+  }
+
+  Future<int> updateWeight (double weight, int id) async {
+    try {
+      final Database? db = await database;
+      final res = await db!.rawQuery('UPDATE users SET weight = ? WHERE id = ?', [weight, id]);
+      //print('*** UPDATEWEIGHT | res: $res');
+      return 0;
+    } catch (e) {
+      print('Error al actualizar el usuario: $e');
+      return -1;
+    }
+  }
+
+  Future<int> updateHeight (double height, int id) async {
+    try {
+      final Database? db = await database;
+      final res = await db!.rawQuery('UPDATE users SET height = ? WHERE id = ?', [height, id]);
+      //print('*** UPDATEWEIGHT | res: $res');
+      return 0;
+    } catch (e) {
+      print('Error al actualizar el usuario: $e');
+      return -1;
+    }
   }
 
   Future<int> deleteUser(int id) async {

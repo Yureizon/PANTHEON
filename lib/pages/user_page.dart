@@ -5,14 +5,9 @@ import 'package:pantheon/providers.dart/logged_user_provider.dart';
 import 'package:pantheon/providers.dart/users_provider.dart';
 import 'package:provider/provider.dart';
 
-class UserPage extends StatefulWidget {
+class UserPage extends StatelessWidget {
   const UserPage({super.key});
 
-  @override
-  State<UserPage> createState() => _UserPageState();
-}
-
-class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     
@@ -45,7 +40,8 @@ class _UserPageState extends State<UserPage> {
             const SizedBox(height: 10),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8,),
-              child: Text('Información Basica || id del usuario en sesión:${loggedUserProvider.id}', style: TextStyle(fontSize: 18),),
+              child: const Text('Información Basica', style: TextStyle(fontSize: 18),),
+              //Text('Información Basica || id del usuario en sesión:${loggedUserProvider.id}', style: TextStyle(fontSize: 18),),
             ),
             const InfoCard(index: 0),
             const SizedBox(height: 15),
@@ -155,11 +151,8 @@ class InfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    UsersProvider usersProvider = Provider.of<UsersProvider>(context);
-
     LoggedUserProvider loggedUserProvider = Provider.of<LoggedUserProvider>(context);
 
-    final users = usersProvider.users;
     final double imc = calcularIMC(loggedUserProvider.weight!, loggedUserProvider.height!);
 
     return Card(
@@ -233,8 +226,12 @@ Widget popupMenuButton2 (context) {
 }
 
 void _showAddTaskBottomSheet(BuildContext context) {
+
   UsersProvider usersProvider = Provider.of<UsersProvider>(context, listen: false);
-  final users = usersProvider.users;
+
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  LoggedUserProvider loggedUserProvider = Provider.of<LoggedUserProvider>(context, listen: false);
+
   showModalBottomSheet(
     showDragHandle: true,
     context: context, 
@@ -242,11 +239,11 @@ void _showAddTaskBottomSheet(BuildContext context) {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
          child: Form(
-            key: usersProvider.formKeyUsers3,
+            key: formKey,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               children: [
-                Text('Peso actual: ${users[0].weight}'),
+                Text('Peso actual: ${loggedUserProvider.weight}'),
                 TextFormField(
                   autocorrect: false,
                   keyboardType: TextInputType.number,
@@ -258,10 +255,10 @@ void _showAddTaskBottomSheet(BuildContext context) {
                   ),
                   onChanged: (value) {
                     if (value.isNotEmpty) {
-                      usersProvider.weight = double.parse(value);
+                      loggedUserProvider.weight = double.parse(value);
                     }
                     else {
-                      usersProvider.weight = 0.0;
+                      loggedUserProvider.weight = 0.0;
                     }
                   },
                   validator: (value) {
@@ -279,17 +276,15 @@ void _showAddTaskBottomSheet(BuildContext context) {
                     //Quitar teclado al terminar
                     FocusScope.of(context).unfocus();
 
-                    if (!usersProvider.isValidForm()) return;
-                    usersProvider.name = usersProvider.name;
-                    usersProvider.password = usersProvider.password;
-                    usersProvider.height = usersProvider.height;
-                    usersProvider.updateUser();
-                    usersProvider.isLoading = false;
+                    if (!usersProvider.isValidLocalForm(formKey)) return;
+
+                    loggedUserProvider.updateWeight();
+
                     Navigator.pop(context);
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(),
-                    child: Text(usersProvider.isLoading ? 'Espere' : 'Actualizar', style: const TextStyle(fontSize: 20,color: Colors.black, fontWeight: FontWeight.bold)),
+                    child: const Text('Actualizar', style: TextStyle(fontSize: 20,color: Colors.black, fontWeight: FontWeight.bold)),
                   ),
                 )
               ],
@@ -301,8 +296,12 @@ void _showAddTaskBottomSheet(BuildContext context) {
 }
 
 void _showAddTaskBottomSheet2(BuildContext context) {
+
   UsersProvider usersProvider = Provider.of<UsersProvider>(context, listen: false);
-  final users = usersProvider.users;
+
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  LoggedUserProvider loggedUserProvider = Provider.of<LoggedUserProvider>(context, listen: false);
+
   showModalBottomSheet(
     showDragHandle: true,
     context: context, 
@@ -310,11 +309,11 @@ void _showAddTaskBottomSheet2(BuildContext context) {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Form(
-          key: usersProvider.formKeyUsers,
+          key: formKey,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Column(
             children: [
-              Text('Altura actual: ${users[0].weight}'),
+              Text('Altura actual: ${loggedUserProvider.height}'),
               TextFormField(
                 autocorrect: false,
                 keyboardType: TextInputType.number,
@@ -326,10 +325,10 @@ void _showAddTaskBottomSheet2(BuildContext context) {
                 ),
                 onChanged: (value) {
                   if (value.isNotEmpty) {
-                    usersProvider.height = double.parse(value);
+                    loggedUserProvider.height = double.parse(value);
                   }
                   else {
-                    usersProvider.height = 1.5;
+                    loggedUserProvider.height = 1.5;
                   }
                 },
                 validator: (value) {
@@ -346,17 +345,15 @@ void _showAddTaskBottomSheet2(BuildContext context) {
                   //Quitar teclado al terminar
                   FocusScope.of(context).unfocus();
 
-                  if (!usersProvider.isValidForm()) return;
-                  usersProvider.name = usersProvider.name;
-                  usersProvider.password = usersProvider.password;
-                  usersProvider.weight = usersProvider.weight;
-                  usersProvider.updateUser();
-                  usersProvider.isLoading = false;
+                  if (!usersProvider.isValidLocalForm(formKey)) return;
+
+                    loggedUserProvider.updateHeight();
+                  
                   Navigator.pop(context);
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(),
-                  child: Text(usersProvider.isLoading ? 'Espere' : 'Actualizar', style: const TextStyle(fontSize: 20,color: Colors.black, fontWeight: FontWeight.bold)),
+                  child: const Text('Actualizar', style: TextStyle(fontSize: 20,color: Colors.black, fontWeight: FontWeight.bold)),
                 ),
               )
             ],

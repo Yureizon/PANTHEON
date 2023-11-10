@@ -7,6 +7,7 @@ class WorkoutProvider extends ChangeNotifier {
 
   String createOrUpdate = "create";
   int? id;
+  int userId = -1;
   String fecha = '';
   String grupo = '';
 
@@ -18,7 +19,7 @@ class WorkoutProvider extends ChangeNotifier {
   }
 
   Future<Workout> addWorkout() async {
-    final Workout workout = Workout(fecha: fecha, grupo: grupo);
+    final Workout workout = Workout(userId: userId, fecha: fecha, grupo: grupo);
 
     final id = await DBProvider.db.newWorkout(workout);
     workout.id = id;
@@ -38,7 +39,7 @@ class WorkoutProvider extends ChangeNotifier {
   }
 
   loadWorkouts() async {
-    final List<Workout> workoutList = await DBProvider.db.getAllWorkouts();
+    final List<Workout> workoutList = await DBProvider.db.getAllWorkouts(userId);
     this.workoutList = [...workoutList];
     notifyListeners();
   }
