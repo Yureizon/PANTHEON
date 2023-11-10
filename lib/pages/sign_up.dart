@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pantheon/pages/all.dart';
-import 'package:pantheon/pages/home_page.dart';
-import 'package:pantheon/pages/sign_in.dart';
 import 'package:pantheon/providers.dart/users_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -44,12 +41,15 @@ class SignUp extends StatelessWidget {
 }
 
 class CreateForm extends StatelessWidget {
+  const CreateForm({super.key});
+
   @override
   Widget build(BuildContext context) {
     final UsersProvider usersProvider = Provider.of<UsersProvider>(context);
-    // usersProvider.resetUserData();
+
     return Form(
       key: usersProvider.formKeyUsers,
+      //key: usersProvider.formKeyUsers,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       child: Column(
         children: <Widget> [
@@ -58,7 +58,7 @@ class CreateForm extends StatelessWidget {
             child: TextFormField(
               autocorrect: false,
               keyboardType: TextInputType.emailAddress,
-              initialValue: usersProvider.name,
+              initialValue: '',
               decoration: const InputDecoration(
                 //border: OutlineInputBorder(),
                 hintText: "example: Shaggy",
@@ -86,7 +86,7 @@ class CreateForm extends StatelessWidget {
             child: TextFormField(
               autocorrect: false,
               keyboardType: TextInputType.number,
-              //initialValue: usersProvider.weight.toString(),
+              initialValue: '',
               decoration: const InputDecoration(
                 //border: OutlineInputBorder(),
                 hintText: "example: 65.5",
@@ -115,7 +115,7 @@ class CreateForm extends StatelessWidget {
             child: TextFormField(
               autocorrect: false,
               keyboardType: TextInputType.number,
-              //initialValue: usersProvider.weight.toString(),
+              initialValue: '',
               decoration: const InputDecoration(
                 //border: OutlineInputBorder(),
                 hintText: "example: 1.56",
@@ -144,7 +144,7 @@ class CreateForm extends StatelessWidget {
             child: TextFormField(
               autocorrect: false,
               keyboardType: TextInputType.visiblePassword,
-              initialValue: usersProvider.password,
+              initialValue: '',
               decoration: const InputDecoration(
                 //border: OutlineInputBorder(),
                 hintText: "example: 828",

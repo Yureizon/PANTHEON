@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pantheon/models.dart/generalUser_model.dart';
+import 'package:pantheon/providers.dart/logged_user_provider.dart';
 import 'package:pantheon/providers.dart/users_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -8,6 +10,7 @@ class LoginForm extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final UsersProvider usersProvider = Provider.of<UsersProvider>(context);
+    final LoggedUserProvider loggedUserProvider = Provider.of<LoggedUserProvider>(context);
 
     return Form(
       key: usersProvider.formKeyUsers2,
@@ -19,7 +22,6 @@ class LoginForm extends StatelessWidget {
             child: TextFormField(
               autocorrect: false,
               keyboardType: TextInputType.emailAddress,
-              initialValue: '',
               decoration: const InputDecoration(
                 //border: OutlineInputBorder(),
                 hintText: "example: Shaggy",
@@ -47,7 +49,6 @@ class LoginForm extends StatelessWidget {
             child: TextFormField(
               autocorrect: false,
               keyboardType: TextInputType.visiblePassword,
-              initialValue: '',
               obscureText: true,
               decoration: const InputDecoration(
                 //border: OutlineInputBorder(),
@@ -82,20 +83,36 @@ class LoginForm extends StatelessWidget {
                 String password = usersProvider.password;
                 var found = await usersProvider.validateUser(name, password);
 
+                loggedUserProvider.clear();
+
                 if (found) {
+                  Future<dynamic> sies = usersProvider.getSesion(name);
 
-                  print('*** ENTRO: if ***');
-
+                  print('*** viene TRY CACH ***');
+                  try{
+                    loggedUserProvider.id = await sies.then((dynamic value) {
+                      // Convertir el valor dinámico a int
+                      return int.parse(value.toString());
+                    });
+                  } catch (e) {
+                    print('Error al obtener el resultado: $e');
+                  }
+                  print('*** FIN!! TRY CACH ***');
+                  int temp = loggedUserProvider.id!;
+                  GeneralUser user = await usersProvider.getUserInfo(temp);
+                  print('*** e: $user ***');
+                  print('*** e: ${user.id}, ${user.name}, ${user.weight}, ${user.height}, ${user.rol}  ***');
+                  loggedUserProvider.isLogged(user.id, user.name, user.password, user.weight, user.height, user.rol);
                   Navigator.pushNamed(context, "Navigation");
 
                 } else {
                   displayDialog1(context);
                 }
 
-                usersProvider.getTodo();
+                //usersProvider.getTodo();
 
                 //usersProvider.resetUserData();
-                usersProvider.getTodo();
+                //usersProvider.getTodo();
 
                 usersProvider.isLoading = false;
                 

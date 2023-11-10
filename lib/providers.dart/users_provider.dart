@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pantheon/models.dart/generalUser_model.dart';
 import 'package:pantheon/providers.dart/db_provider.dart';
+import 'package:pantheon/providers.dart/logged_user_provider.dart';
 
 class UsersProvider extends ChangeNotifier {
   GlobalKey<FormState> formKeyUsers = GlobalKey<FormState>();
@@ -48,14 +49,27 @@ class UsersProvider extends ChangeNotifier {
   }
 
   Future<bool> getUserByName(String name) async {
-    print("Nombre que llega al provider: $name");
+    //print("Nombre que llega al provider: $name");
     final res = await DBProvider.db.getUserName(name);
     return res;
   }
 
+  getUserInfo(int id) async {
+    final res = await DBProvider.db.getUserById(id);
+    print('*** GET USER INFO: $res');
+    return res;
+  }
+
+  getSesion(String name) async {
+    print("Nombre que llega al provider GETSESION: $name");
+    final res = await DBProvider.db.getUserIdByName(name);
+    print('*** ID que retorna GETSESIO: $res');
+    return res;
+  }
+
   Future<bool> validateUser(String name, String password) async {
-    print("Nombre que llega al provider: $name");
-    print("Contraseña que llega al provider: $password");
+    //print("Nombre que llega al provider: $name");
+    //print("Contraseña que llega al provider: $password");
     final res = await DBProvider.db.validateUserDB(name, password);
     return res;
   }

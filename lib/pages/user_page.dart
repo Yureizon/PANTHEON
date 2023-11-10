@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pantheon/pages/new_training.dart';
 import 'package:pantheon/pages/workout_list.dart';
+import 'package:pantheon/providers.dart/logged_user_provider.dart';
 import 'package:pantheon/providers.dart/users_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -18,6 +19,8 @@ class _UserPageState extends State<UserPage> {
     UsersProvider usersProvider = Provider.of<UsersProvider>(context);
     usersProvider.loadUsers;
 
+    LoggedUserProvider loggedUserProvider = Provider.of<LoggedUserProvider>(context);
+
     return MaterialApp(
       theme: ThemeData(useMaterial3: true),
       debugShowCheckedModeBanner: false,
@@ -33,7 +36,7 @@ class _UserPageState extends State<UserPage> {
             const SizedBox(height: 10),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8,),
-              child: const Text('Información Basica', style: TextStyle(fontSize: 18),),
+              child: Text('Información Basica || id del usuario en sesión:${loggedUserProvider.id}', style: TextStyle(fontSize: 18),),
             ),
             const InfoCard(index: 0),
             const SizedBox(height: 15),
@@ -84,7 +87,7 @@ class _UserPageState extends State<UserPage> {
             //_listUsers(),
           ],
         ),
-        floatingActionButton: IconButton(
+        /*floatingActionButton: IconButton(
         onPressed: () async {
           usersProvider.loadUsers();
         }, 
@@ -92,7 +95,7 @@ class _UserPageState extends State<UserPage> {
         iconSize: 40,
         tooltip: "Refresh List",
         splashColor: Colors.green,
-      ),
+      ),*/
       )
     );
   }
@@ -144,8 +147,11 @@ class InfoCard extends StatelessWidget {
   Widget build(BuildContext context) {
 
     UsersProvider usersProvider = Provider.of<UsersProvider>(context);
+
+    LoggedUserProvider loggedUserProvider = Provider.of<LoggedUserProvider>(context);
+
     final users = usersProvider.users;
-    final double imc = calcularIMC(users[index].weight!, users[index].height!);
+    final double imc = calcularIMC(loggedUserProvider.weight!, loggedUserProvider.height!);
 
     return Card(
       clipBehavior: Clip.hardEdge,
@@ -158,18 +164,18 @@ class InfoCard extends StatelessWidget {
             children: [
               ListTile(
                 title: const Text('Usuario'),
-                subtitle: Text(users[index].name, style: const TextStyle(fontSize: 24, color: Colors.black ,fontWeight: FontWeight.bold)),
+                subtitle: Text(loggedUserProvider.name, style: const TextStyle(fontSize: 24, color: Colors.black ,fontWeight: FontWeight.bold)),
               ),
               const Divider(height: 15),
               ListTile(
                 title: const Text('Peso'),
-                subtitle: Text(users[index].weight.toString(), style: const TextStyle(fontSize: 24, color: Colors.black ,fontWeight: FontWeight.bold)),
+                subtitle: Text(loggedUserProvider.weight.toString(), style: const TextStyle(fontSize: 24, color: Colors.black ,fontWeight: FontWeight.bold)),
                 trailing: popupMenuButton1(context),
               ),
               const Divider(height: 15),
               ListTile(
                 title: const Text('Altura'),
-                subtitle: Text(users[index].height.toString(), style: const TextStyle(fontSize: 24, color: Colors.black ,fontWeight: FontWeight.bold)),
+                subtitle: Text(loggedUserProvider.height.toString(), style: const TextStyle(fontSize: 24, color: Colors.black ,fontWeight: FontWeight.bold)),
                 trailing: popupMenuButton2(context),
               ),
               const Divider(height: 15),

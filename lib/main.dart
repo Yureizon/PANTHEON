@@ -9,6 +9,7 @@ import 'package:pantheon/pages/sign_in.dart';
 import 'package:pantheon/pages/sign_up.dart';
 import 'package:pantheon/pages/workout_list.dart';
 import 'package:pantheon/providers.dart/ejercicio_provider.dart';
+import 'package:pantheon/providers.dart/logged_user_provider.dart';
 import 'package:pantheon/providers.dart/receta_provider.dart';
 import 'package:pantheon/providers.dart/users_provider.dart';
 import 'package:pantheon/providers.dart/workout_provider.dart';
@@ -32,6 +33,7 @@ class NavigationBarApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => WorkoutProvider()),
         ChangeNotifierProvider(create: (_) => EjercicioProvider()),
         ChangeNotifierProvider(create: (_) => RecetaProvider()),
+        ChangeNotifierProvider(create: (_) => LoggedUserProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
