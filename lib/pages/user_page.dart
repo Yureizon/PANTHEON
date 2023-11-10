@@ -43,7 +43,7 @@ class UserPage extends StatelessWidget {
               child: const Text('Información Basica', style: TextStyle(fontSize: 18),),
               //Text('Información Basica || id del usuario en sesión:${loggedUserProvider.id}', style: TextStyle(fontSize: 18),),
             ),
-            const InfoCard(index: 0),
+            const InfoCard(),
             const SizedBox(height: 15),
             Container(
               decoration: BoxDecoration(
@@ -125,10 +125,10 @@ class _listUsers extends StatelessWidget {
 
 class InfoCard extends StatelessWidget {
 
-  final int index;
+  //final int index;
   
   const InfoCard({Key? key,
-    required this.index,
+    //required this.index,
   }) : super(key: key);
 
   double calcularIMC(double peso, double altura) {
