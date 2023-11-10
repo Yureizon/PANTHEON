@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pantheon/models.dart/receta_model.dart';
 import 'package:pantheon/pages/new_receta.dart';
+import 'package:pantheon/providers.dart/logged_user_provider.dart';
 import 'package:pantheon/providers.dart/receta_provider.dart';
 import 'package:pantheon/widgets/nutrition_card.dart';
 import 'package:pantheon/widgets/nutrition_card_1.dart';
@@ -8,9 +8,14 @@ import 'package:provider/provider.dart';
 
 class NutritionPage extends StatelessWidget {
   NutritionPage({super.key});
-  bool admin = true;
+
+
   @override
   Widget build(BuildContext context) {
+
+    final LoggedUserProvider loggedUserProvider = Provider.of<LoggedUserProvider>(context);
+    bool admin = loggedUserProvider.esAdmin();
+
     return MaterialApp(
       theme: ThemeData(useMaterial3: true),
       debugShowCheckedModeBanner: false,
@@ -114,6 +119,9 @@ class ListNutrition extends StatelessWidget {
     RecetaProvider recetaProvider = Provider.of<RecetaProvider>(context);
     recetaProvider.loadRecetas();
     final recetaList = recetaProvider.recetasList;
+
+    final LoggedUserProvider loggedUserProvider = Provider.of<LoggedUserProvider>(context);
+    bool admin = loggedUserProvider.esAdmin();
     
     return ListView.separated(
       itemCount: recetaList.length,
@@ -126,14 +134,14 @@ class ListNutrition extends StatelessWidget {
         child: ListTile(
           leading: const Icon(Icons.spa),
           title: Text(recetaList[index].titulo),
-          trailing: PopupMenuButton(
+          trailing: admin ? PopupMenuButton(
           onSelected: (int i) {
             displayDialog(context, recetaProvider, recetaList[index].id!);
           },
           itemBuilder: (context) => const [
             PopupMenuItem(value: 0, child: Text('Eliminar'),),
           ],
-        ),
+        ) : null,
         onTap: () => detail(context, recetaProvider, index),
         ),
       ),

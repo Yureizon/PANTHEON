@@ -5,6 +5,7 @@ import 'package:pantheon/providers.dart/users_provider.dart';
 import 'package:provider/provider.dart';
 
 class LoginForm extends StatelessWidget {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,8 @@ class LoginForm extends StatelessWidget {
     final LoggedUserProvider loggedUserProvider = Provider.of<LoggedUserProvider>(context);
 
     return Form(
-      key: usersProvider.formKeyUsers2,
+      //key: usersProvider.formKeyUsers2,
+      key: _formKey,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       child: Column(
         children: <Widget> [
@@ -78,7 +80,11 @@ class LoginForm extends StatelessWidget {
                 FocusScope.of(context).unfocus();
                 
                 usersProvider.loadUsers();
-                if (!usersProvider.isValidForm2()) return;
+                
+                print('*** onPressed Buttom! ***');
+                if (!usersProvider.isValidLocalForm(_formKey)) return;
+
+                //if (!usersProvider.isValidForm2()) return;
                 String name = usersProvider.name;
                 String password = usersProvider.password;
                 var found = await usersProvider.validateUser(name, password);
@@ -88,7 +94,7 @@ class LoginForm extends StatelessWidget {
                 if (found) {
                   Future<dynamic> sies = usersProvider.getSesion(name);
 
-                  print('*** viene TRY CACH ***');
+                  //print('*** viene TRY CACH ***');
                   try{
                     loggedUserProvider.id = await sies.then((dynamic value) {
                       // Convertir el valor dinámico a int
@@ -97,11 +103,11 @@ class LoginForm extends StatelessWidget {
                   } catch (e) {
                     print('Error al obtener el resultado: $e');
                   }
-                  print('*** FIN!! TRY CACH ***');
+                  //print('*** FIN!! TRY CACH ***');
                   int temp = loggedUserProvider.id!;
                   GeneralUser user = await usersProvider.getUserInfo(temp);
-                  print('*** e: $user ***');
-                  print('*** e: ${user.id}, ${user.name}, ${user.weight}, ${user.height}, ${user.rol}  ***');
+                  //print('*** e: $user ***');
+                  //print('*** e: ${user.id}, ${user.name}, ${user.weight}, ${user.height}, ${user.rol}  ***');
                   loggedUserProvider.isLogged(user.id, user.name, user.password, user.weight, user.height, user.rol);
                   Navigator.pushNamed(context, "Navigation");
 

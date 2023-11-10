@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:pantheon/pages/new_ejercicio.dart';
 import 'package:pantheon/providers.dart/ejercicio_provider.dart';
+import 'package:pantheon/providers.dart/logged_user_provider.dart';
 import 'package:pantheon/providers.dart/users_provider.dart';
 import 'package:pantheon/widgets/exercise_card.dart';
 import 'package:provider/provider.dart';
@@ -9,11 +10,13 @@ import 'package:provider/provider.dart';
 class ExercisesPage extends StatelessWidget {
   ExercisesPage({super.key});
   
-  
-  bool admin = true;
+
   @override
   Widget build(BuildContext context) {
-    //final UsersProvider usersProvider = Provider.of<UsersProvider>(context);
+
+    final LoggedUserProvider loggedUserProvider = Provider.of<LoggedUserProvider>(context);
+    bool admin = loggedUserProvider.esAdmin();
+    
     return MaterialApp(
       theme: ThemeData(useMaterial3: true),
       debugShowCheckedModeBanner: false,
@@ -127,6 +130,9 @@ class ListTileExample extends StatelessWidget {
     EjercicioProvider ejercicioProvider = Provider.of<EjercicioProvider>(context);
     ejercicioProvider.loadEjercicios();
     final ejerciciosList = ejercicioProvider.ejercicioList;
+
+    final LoggedUserProvider loggedUserProvider = Provider.of<LoggedUserProvider>(context);
+    bool admin = loggedUserProvider.esAdmin();
     
     return ListView.separated(
       itemCount: ejerciciosList.length,
@@ -140,14 +146,14 @@ class ListTileExample extends StatelessWidget {
           leading: const Icon(Symbols.exercise_rounded),
           title: Text(ejerciciosList[index].titulo),
           subtitle: Text(ejerciciosList[index].subtitulo),
-          trailing: PopupMenuButton(
+          trailing: admin ? PopupMenuButton(
           onSelected: (int i) {
             displayDialog(context, ejercicioProvider, ejerciciosList[index].id!);
           },
           itemBuilder: (context) => const [
             PopupMenuItem(value: 0, child: Text('Eliminar'),),
           ],
-        ),
+        ) : null,
         onTap: () => detail(context, ejercicioProvider, index),
         ),
       ),

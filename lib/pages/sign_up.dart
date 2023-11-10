@@ -41,15 +41,17 @@ class SignUp extends StatelessWidget {
 }
 
 class CreateForm extends StatelessWidget {
-  const CreateForm({super.key});
+  CreateForm({super.key});
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     final UsersProvider usersProvider = Provider.of<UsersProvider>(context);
 
     return Form(
-      key: usersProvider.formKeyUsers,
       //key: usersProvider.formKeyUsers,
+      key: _formKey,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       child: Column(
         children: <Widget> [
@@ -172,22 +174,27 @@ class CreateForm extends StatelessWidget {
               //Quitar teclado al terminar
               FocusScope.of(context).unfocus();
 
-              if (!usersProvider.isValidForm()) return;
+              //print('*** Estado del _formKey: ${_formKey.currentState?.validate() ?? false} ***');
+              if (!usersProvider.isValidLocalForm(_formKey)) return;
+
+              print('*** CONTINUARA! ***');
+
+              //if (!usersProvider.isValidForm()) return;
               String name = usersProvider.name; 
-              usersProvider.getTodo();
+              //usersProvider.getTodo();
 
               var found = await usersProvider.getUserByName(name);
 
               if (usersProvider.createOrUpdate == "create") {
 
-                print('*** BUSCANDO A: $name ***');
+                //print('*** BUSCANDO A: $name ***');
 
                 if (found) {
 
                   print('*** ENTRO: if ***');
-                  usersProvider.getTodo();
+                  //usersProvider.getTodo();
                   displayDialog1(context);
-                  usersProvider.getTodo();
+                  //usersProvider.getTodo();
                   print('*** SALIO: if TRUE ***');
                   return;
 

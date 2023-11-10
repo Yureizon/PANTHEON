@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:pantheon/pages/sign_in.dart';
 import 'package:pantheon/pages/sign_up.dart';
-import 'package:pantheon/providers.dart/users_provider.dart';
-import 'package:provider/provider.dart';
 
 class HomePage extends  StatelessWidget {
+  const HomePage({super.key});
+
   @override
   Widget build(BuildContext context){
-
-    //UsersProvider usersProvider = Provider.of<UsersProvider>(context);
-    //usersProvider.loadUsers;
 
     return Scaffold(
         body: Container(
@@ -55,7 +52,7 @@ class HomePage extends  StatelessWidget {
                   ),
                   onPressed: (){
                     final route = MaterialPageRoute(
-                      builder: (context) => SignUp());
+                      builder: (context) => const SignUp());
                       Navigator.push(context, route);
                   },
                   child: const Text("Sign Up", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),),

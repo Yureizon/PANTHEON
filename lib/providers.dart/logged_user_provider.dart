@@ -25,5 +25,16 @@ class LoggedUserProvider extends ChangeNotifier {
     height = 0;
     rol = '';
   }
+
+  bool esAdmin(){
+    if (rol == 'admin') {
+      print('*** ES ADMIN :D ***');
+      return true;
+    }
+    else {
+      print('*** no es admin :( ***');
+      return false;
+    }
+  }
   
 }

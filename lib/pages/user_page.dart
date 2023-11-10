@@ -29,6 +29,15 @@ class _UserPageState extends State<UserPage> {
         appBar: AppBar(
           leading: const Icon(Icons.person),
           title: const Text("Mi perfil", style: TextStyle(fontWeight: FontWeight.bold),),
+          actions: <Widget> [
+            IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, 'Home');
+              },
+              icon: const Icon(Icons.exit_to_app_outlined),
+              tooltip: 'Cerrar Sesión',
+            )
+          ],
           backgroundColor: Colors.lightBlue.shade300,
         ),
         body: ListView(
@@ -233,7 +242,7 @@ void _showAddTaskBottomSheet(BuildContext context) {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
          child: Form(
-            key: usersProvider.formKeyUsers,
+            key: usersProvider.formKeyUsers3,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               children: [

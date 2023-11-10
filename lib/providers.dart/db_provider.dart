@@ -145,24 +145,23 @@ class DBProvider {
   }
 
   Future<bool> getUserName (String name) async {
-    print('*** NOMBRE ENVIADO: $name ***');
+    //print('*** NOMBRE ENVIADO: $name ***');
     final Database? db = await database;
     //usando Query para construir la consulta, con where y argumentos posicionales (whereArgs)
     final res = await db!.query('users', where: 'name = ?', whereArgs: [name]);
     // Verifica si hay coincidencias en la lista de resultados
-    print('*** res de db_privider: $res ****');
+    //print('*** res de db_privider: $res ****');
     bool userExists = res.isNotEmpty;
     return userExists;
   }
 
   Future<int> getUserIdByName (String name) async {
-    print('*** NOMBRE ENVIADO: $name ***');
+    //print('*** NOMBRE ENVIADO: $name ***');
     final Database? db = await database;
     //usando Query para construir la consulta, con where y argumentos posicionales (whereArgs)
-    //final res = await db!.query('users', where: 'name = ?', whereArgs: [name]);
     final res1 = await db!.rawQuery('SELECT id FROM users WHERE name = ?', [name]);
     // Verifica si hay coincidencias en la lista de resultados
-    print('*** res de db_privider: $res1 ****');
+    //print('*** res de db_privider: $res1 ****');
     // Si hay resultados, devuelve el ID del primer resultado
     if (res1.isNotEmpty) {
       return res1.first['id'] as int;
