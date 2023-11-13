@@ -91,14 +91,13 @@ class DBProvider {
     final double? weight = generalUser.weight;
     final double? height = generalUser.height;
 
-    final db =
-        await database; //Recibimos instancia de base de datos para trabajar con ella
+    final db = await database; //Recibimos instancia de base de datos para trabajar con ella
 
     final int res = await db.rawInsert('''
 
       INSERT INTO users (id, name, weight, height) VALUES ($id, "$name", $weight, $height)
 
-''');
+    ''');
     print(res);
     return res;
   }
@@ -147,39 +146,31 @@ class DBProvider {
   }
 
   Future<bool> getUserName (String name) async {
-    //print('*** NOMBRE ENVIADO: $name ***');
     final Database? db = await database;
     //usando Query para construir la consulta, con where y argumentos posicionales (whereArgs)
     final res = await db!.query('users', where: 'name = ?', whereArgs: [name]);
     // Verifica si hay coincidencias en la lista de resultados
-    //print('*** res de db_privider: $res ****');
     bool userExists = res.isNotEmpty;
     return userExists;
   }
 
   Future<int> getUserIdByName (String name) async {
-    //print('*** NOMBRE ENVIADO: $name ***');
     final Database? db = await database;
     //usando Query para construir la consulta, con where y argumentos posicionales (whereArgs)
     final res1 = await db!.rawQuery('SELECT id FROM users WHERE name = ?', [name]);
-    // Verifica si hay coincidencias en la lista de resultados
-    //print('*** res de db_privider: $res1 ****');
-    // Si hay resultados, devuelve el ID del primer resultado
+    // Verifica si hay coincidencias en la lista de resultados. Si hay resultados, devuelve el ID del primer resultado
     if (res1.isNotEmpty) {
       return res1.first['id'] as int;
     } else {
-      // Si no hay resultados, puedes devolver -1 o algún otro valor para indicar que no se encontró ningún registro
+      // Si no hay resultados, devolver -1 o algún otro valor para indicar que no se encontró ningún registro
       return 0;
     }
   }
 
   Future<bool> validateUserDB (String name, String password) async {
-    //print('*** NAME ENVIADO: $name ***');
-    //print('*** PASSWORD ENVIADO: $password ***');
     final Database? db = await database;
     //usando Query para construir la consulta, con where y argumentos posicionales (whereArgs)
     final res = await db!.query('users', where: 'name = ? and password = ?', whereArgs: [name, password]);
-    //print('*** res de db_privider: $res ****');
     bool userExists = res.isNotEmpty;
     return userExists;
   }
@@ -214,7 +205,6 @@ class DBProvider {
 
   Future<int> updateUser(GeneralUser generalUser) async {
     try {
-      //
       final Database? db = await database;
       //con updates, se usa el nombre de la tabla, seguido de los valores en formato de Mapa, seguido del where con parametros posicionales y los argumentos finales
       final res = await db!.update('users', generalUser.toJson(), where: 'id = ?', whereArgs: [generalUser.id]);

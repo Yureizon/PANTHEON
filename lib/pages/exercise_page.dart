@@ -3,12 +3,10 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:pantheon/pages/new_ejercicio.dart';
 import 'package:pantheon/providers.dart/ejercicio_provider.dart';
 import 'package:pantheon/providers.dart/logged_user_provider.dart';
-import 'package:pantheon/providers.dart/users_provider.dart';
-import 'package:pantheon/widgets/exercise_card.dart';
 import 'package:provider/provider.dart';
 
 class ExercisesPage extends StatelessWidget {
-  ExercisesPage({super.key});
+  const ExercisesPage({super.key});
   
 
   @override
@@ -161,38 +159,3 @@ class ListTileExample extends StatelessWidget {
   }
 }
 
-class ListTileExample2 extends StatelessWidget {
-  const ListTileExample2({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.blueGrey,
-      appBar: AppBar(
-        title: const Text('Ejercicios', style: TextStyle(fontWeight: FontWeight.bold)), 
-        backgroundColor: Colors.amber.shade400, 
-        leading: const Icon(Symbols.exercise_rounded),
-      ),
-      body: ListView(
-        children: const <Widget>[
-          ExerciseCard(
-            text1: "Remo inclinado con Mancuernas", 
-            text2: "Hombro, Gluteo, Boombastic", 
-            imagePath: "lib/images/remoInclinadoMancuerna.jpg", // youtu.be/qyN8URX_N0k?si=FNhhCP4H6xM8KRVT
-            uri1: "youtu.be", 
-            uri2: "/qyN8URX_N0k",
-            uri3: "si", 
-            uri4: "FNhhCP4H6xM8KRVT", // https://youtu.be/8yCrV2EQDO8?si=rKd1_CIwblpfz6xD
-            ),
-            ExerciseCard(
-              text1: "TdeA", 
-              text2: "Espalda, Trapecios, TdeA", 
-              imagePath: "lib/images/fondosesion1.jpg", alto: 90, ancho: 80,
-              uri1: "youtube.com", // https://youtube.com/@LosPrisionerosOficial?si=RocbgIAZ53RoqwdO
-              uri2: "/@tdeatv", uri3: "", uri4: ""
-            ),
-        ],
-      ),
-    );
-  }
-}

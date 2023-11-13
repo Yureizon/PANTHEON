@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 
 class LoginForm extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  LoginForm({super.key});
   
   @override
   Widget build(BuildContext context) {
@@ -14,7 +16,6 @@ class LoginForm extends StatelessWidget {
     final LoggedUserProvider loggedUserProvider = Provider.of<LoggedUserProvider>(context);
 
     return Form(
-      //key: usersProvider.formKeyUsers2,
       key: _formKey,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       child: Column(
@@ -25,7 +26,6 @@ class LoginForm extends StatelessWidget {
               autocorrect: false,
               keyboardType: TextInputType.emailAddress,
               decoration: const InputDecoration(
-                //border: OutlineInputBorder(),
                 hintText: "example: Shaggy",
                 labelText: "User Name",
                 labelStyle: TextStyle(
@@ -36,12 +36,9 @@ class LoginForm extends StatelessWidget {
               ),
               onChanged: (value) {
                 usersProvider.name = value;
-
-                print(usersProvider.name);
-                
               },
               validator: (value) {
-                return value != '' ? null : 'The field must not be empty';
+                return value != '' ? null : 'El campo no debe estar vacío.';
               },
             ),
           ),
@@ -53,7 +50,6 @@ class LoginForm extends StatelessWidget {
               keyboardType: TextInputType.visiblePassword,
               obscureText: true,
               decoration: const InputDecoration(
-                //border: OutlineInputBorder(),
                 hintText: "example: 828",
                 labelText: "Password",
                 labelStyle: TextStyle(
@@ -64,7 +60,7 @@ class LoginForm extends StatelessWidget {
               ),
               onChanged: (value) => usersProvider.password = value,
               validator: (value) {
-                return value != '' ? null : 'The field must not be empty';
+                return value != '' ? null : 'El campo no debe estar vacío.';
               },
             ),
           ),
@@ -80,11 +76,9 @@ class LoginForm extends StatelessWidget {
                 FocusScope.of(context).unfocus();
                 
                 usersProvider.loadUsers();
-                
-                print('*** onPressed Buttom! ***');
+
                 if (!usersProvider.isValidLocalForm(_formKey)) return;
 
-                //if (!usersProvider.isValidForm2()) return;
                 String name = usersProvider.name;
                 String password = usersProvider.password;
                 var found = await usersProvider.validateUser(name, password);
@@ -94,7 +88,6 @@ class LoginForm extends StatelessWidget {
                 if (found) {
                   Future<dynamic> sies = usersProvider.getSesion(name);
 
-                  //print('*** viene TRY CACH ***');
                   try{
                     loggedUserProvider.id = await sies.then((dynamic value) {
                       // Convertir el valor dinámico a int
@@ -103,26 +96,21 @@ class LoginForm extends StatelessWidget {
                   } catch (e) {
                     print('Error al obtener el resultado: $e');
                   }
-                  //print('*** FIN!! TRY CACH ***');
+                  
                   int temp = loggedUserProvider.id!;
+
                   GeneralUser user = await usersProvider.getUserInfo(temp);
-                  //print('*** e: $user ***');
-                  //print('*** e: ${user.id}, ${user.name}, ${user.weight}, ${user.height}, ${user.rol}  ***');
+
                   loggedUserProvider.isLogged(user.id, user.name, user.password, user.weight, user.height, user.rol);
+
                   Navigator.pushNamed(context, "Navigation");
 
                 } else {
                   displayDialog1(context);
                 }
 
-                //usersProvider.getTodo();
-
-                //usersProvider.resetUserData();
-                //usersProvider.getTodo();
-
                 usersProvider.isLoading = false;
-                
-                //actualOptionProvider.selectedOption = 0;
+
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 15),

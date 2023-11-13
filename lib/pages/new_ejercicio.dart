@@ -48,7 +48,7 @@ class _CreateForm extends StatelessWidget {
               }
             },
             validator: (value) {
-              return value != '' ? null : 'The field must not be empty';
+              return value != '' ? null : 'El campo no debe estar vacío.';
             },
           ),
           const SizedBox(height: 20,),
@@ -69,7 +69,7 @@ class _CreateForm extends StatelessWidget {
               }
             },
             validator: (value) {
-              return value != '' ? null : 'The field must not be empty';
+              return value != '' ? null : 'El campo no debe estar vacío.';
             },
           ),
           const SizedBox(height: 20,),
@@ -91,7 +91,7 @@ class _CreateForm extends StatelessWidget {
               }
             },
             validator: (value) {
-              return value != '' ? null : 'The field must not be empty';
+              return value != '' ? null : 'El campo no debe estar vacío.';
             },
           ),
           const SizedBox(height: 20,),

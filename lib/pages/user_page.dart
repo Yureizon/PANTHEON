@@ -14,7 +14,7 @@ class UserPage extends StatelessWidget {
     UsersProvider usersProvider = Provider.of<UsersProvider>(context);
     usersProvider.loadUsers;
 
-    LoggedUserProvider loggedUserProvider = Provider.of<LoggedUserProvider>(context);
+    //LoggedUserProvider loggedUserProvider = Provider.of<LoggedUserProvider>(context);
 
     return MaterialApp(
       theme: ThemeData(useMaterial3: true),
@@ -89,46 +89,16 @@ class UserPage extends StatelessWidget {
                 ),
               )
             ),
-            //_listUsers(),
           ],
         ),
-        /*floatingActionButton: IconButton(
-        onPressed: () async {
-          usersProvider.loadUsers();
-        }, 
-        icon: const Icon(Icons.restart_alt),
-        iconSize: 40,
-        tooltip: "Refresh List",
-        splashColor: Colors.green,
-      ),*/
       )
     );
   }
 }
 
-class _listUsers extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    UsersProvider usersProvider = Provider.of<UsersProvider>(context);
-    final users = usersProvider.users;
-
-    return ListView.builder(
-      itemCount: users.length,
-      itemBuilder: (_, index) => ListTile(
-        leading: const Icon(Icons.person),
-        title: Text(users[index].name),
-        subtitle: Text(users[index].password),
-      ),
-    );
-  }
-}
-
 class InfoCard extends StatelessWidget {
-
-  //final int index;
   
   const InfoCard({Key? key,
-    //required this.index,
   }) : super(key: key);
 
   double calcularIMC(double peso, double altura) {
@@ -159,7 +129,6 @@ class InfoCard extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       margin: const EdgeInsets.all(8),
       child: InkWell(
-        //splashColor: Colors.blue,
         child: Padding(
           padding: const EdgeInsets.all(0),
           child: Column(
@@ -255,14 +224,31 @@ void _showAddTaskBottomSheet(BuildContext context) {
                   ),
                   onChanged: (value) {
                     if (value.isNotEmpty) {
-                      loggedUserProvider.weight = double.parse(value);
+                      try {
+                        loggedUserProvider.weight = double.parse(value);
+                      } catch(e) {
+                        print('$e NO ES UN PESO ACEPTABLE');
+                      }
                     }
                     else {
                       loggedUserProvider.weight = 0.0;
                     }
                   },
                   validator: (value) {
-                    return value != '' ? null : 'The field must not be empty';
+                    if (value != null) {
+                      if (value.isNotEmpty) {
+                        try {
+                          double.parse(value);
+                          return null;
+                        } catch (e) {
+                          return 'Ingresa un número válido.';
+                        }
+                      } else {
+                        return 'El campo no debe estar vacío.';
+                      }
+                    } else {
+                      return 'El campo no debe estar vacío.';
+                    }
                   },
                 ),
                 const SizedBox(height: 15,),
@@ -325,14 +311,31 @@ void _showAddTaskBottomSheet2(BuildContext context) {
                 ),
                 onChanged: (value) {
                   if (value.isNotEmpty) {
-                    loggedUserProvider.height = double.parse(value);
+                    try {
+                      loggedUserProvider.height = double.parse(value);
+                    } catch (e) {
+                      print('$e NO ES UN DOUBLE');
+                    }
                   }
                   else {
                     loggedUserProvider.height = 1.5;
                   }
                 },
                 validator: (value) {
-                  return value != '' ? null : 'The field must not be empty';
+                  if (value != null) {
+                      if (value.isNotEmpty) {
+                        try {
+                          double.parse(value);
+                          return null;
+                        } catch (e) {
+                          return 'Ingresa un número válido.';
+                        }
+                      } else {
+                        return 'El campo no debe estar vacío.';
+                      }
+                    } else {
+                      return 'El campo no debe estar vacío.';
+                    }
                 },
               ),
               const SizedBox(height: 15,),

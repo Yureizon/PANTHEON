@@ -23,9 +23,6 @@ class HomePage extends  StatelessWidget {
                 width: double.infinity,
                 height: 60.0,
                 child: TextButton(
-                  // Parametros para los botones flotantes
-                  //splashColor: Colors.green,
-                  //backgroundColor: Colors.amber,
                   style: const ButtonStyle( 
                     backgroundColor: MaterialStatePropertyAll(Colors.amber),
                     splashFactory: InkRipple.splashFactory,
@@ -43,9 +40,6 @@ class HomePage extends  StatelessWidget {
                 width: double.infinity,
                 height: 60.0,
                 child: TextButton(
-                  // Parametros para los botones flotantes
-                  //splashColor: Colors.green,
-                  //backgroundColor: Colors.amber,
                   style: const ButtonStyle( 
                     backgroundColor: MaterialStatePropertyAll(Colors.amber),
                     splashFactory: InkRipple.splashFactory,

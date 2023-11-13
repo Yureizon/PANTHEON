@@ -18,7 +18,6 @@ class SignUp extends StatelessWidget {
             const Text("WELCOME TO", style: TextStyle(fontSize: 26.0, fontWeight: FontWeight.bold, color: Colors.white), textAlign: TextAlign.center,),
             const Text("PANTHEON", style: TextStyle(fontSize: 38.0, fontWeight: FontWeight.bold, color: Colors.white), textAlign: TextAlign.center,),
             const Text("Sign Up", style: TextStyle(fontSize: 38.0, fontWeight: FontWeight.bold, color: Colors.teal), textAlign: TextAlign.center,),
-            //const SignUpForm(),
             CreateForm(),
             const Divider(height: 30.0,),
             Row(
@@ -50,7 +49,6 @@ class CreateForm extends StatelessWidget {
     final UsersProvider usersProvider = Provider.of<UsersProvider>(context);
 
     return Form(
-      //key: usersProvider.formKeyUsers,
       key: _formKey,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       child: Column(
@@ -62,7 +60,6 @@ class CreateForm extends StatelessWidget {
               keyboardType: TextInputType.emailAddress,
               initialValue: '',
               decoration: const InputDecoration(
-                //border: OutlineInputBorder(),
                 hintText: "example: Shaggy",
                 labelText: "User Name",
                 labelStyle: TextStyle(
@@ -78,7 +75,7 @@ class CreateForm extends StatelessWidget {
                 
               },
               validator: (value) {
-                return value != '' ? null : 'The field must not be empty';
+                return value != '' ? null : 'El campo no debe estar vacío.';
               },
             ),
           ),
@@ -90,7 +87,6 @@ class CreateForm extends StatelessWidget {
               keyboardType: TextInputType.number,
               initialValue: '',
               decoration: const InputDecoration(
-                //border: OutlineInputBorder(),
                 hintText: "example: 65.5",
                 labelText: "Peso",
                 labelStyle: TextStyle(
@@ -101,13 +97,28 @@ class CreateForm extends StatelessWidget {
               ),
               onChanged: (value) {
                 if (value.isNotEmpty) {
-                  usersProvider.weight = double.parse(value);
-                } else {
-                  usersProvider.weight = 0.0;
+                  try {
+                    usersProvider.weight = double.parse(value);
+                  } catch (e) {
+                    print('$e NO ES UN PESO ACEPTABLE');
+                  }
                 }
               },
               validator: (value) {
-                return value != '' ? null : 'The field must not be empty';
+                if (value != null) {
+                  if (value.isNotEmpty) {
+                    try {
+                      double.parse(value);
+                      return null;
+                    } catch (e) {
+                      return 'Ingresa un número válido.';
+                    }
+                  } else {
+                    return 'El campo no debe estar vacío.';
+                  }
+                } else {
+                  return 'El campo no debe estar vacío';
+                }
               },
             ),
           ),
@@ -119,7 +130,6 @@ class CreateForm extends StatelessWidget {
               keyboardType: TextInputType.number,
               initialValue: '',
               decoration: const InputDecoration(
-                //border: OutlineInputBorder(),
                 hintText: "example: 1.56",
                 labelText: "Altura",
                 labelStyle: TextStyle(
@@ -130,13 +140,30 @@ class CreateForm extends StatelessWidget {
               ),
               onChanged: (value) {
                 if (value.isNotEmpty) {
-                  usersProvider.height = double.parse(value);
+                  try {
+                    usersProvider.height = double.parse(value);
+                  } catch (e) {
+                    print('$e NO ES UNA ESTURA ACEPTABLE!');
+                  }
                 } else {
                   usersProvider.height = 0.0;
                 }
               },
               validator: (value) {
-                return value != '' ? null : 'The field must not be empty';
+                if (value != null) {
+                  if (value.isNotEmpty) {
+                    try {
+                      double.parse(value);
+                      return null;
+                    } catch (e) {
+                      return 'Ingresa un número válido.';
+                    }
+                  } else {
+                    return 'El campo no debe estar vacío.';
+                  }
+                } else {
+                  return 'El campo no debe estar vacío.';
+                }
               },
             ),
           ),
@@ -148,7 +175,6 @@ class CreateForm extends StatelessWidget {
               keyboardType: TextInputType.visiblePassword,
               initialValue: '',
               decoration: const InputDecoration(
-                //border: OutlineInputBorder(),
                 hintText: "example: 828",
                 labelText: "Password",
                 labelStyle: TextStyle(
@@ -159,7 +185,7 @@ class CreateForm extends StatelessWidget {
               ),
               onChanged: (value) => usersProvider.password = value,
               validator: (value) {
-                return value != '' ? null : 'The field must not be empty';
+                return value != '' ? null : 'El campo no debe estar vacío.';
               },
             ),
           ),
@@ -174,45 +200,29 @@ class CreateForm extends StatelessWidget {
               //Quitar teclado al terminar
               FocusScope.of(context).unfocus();
 
-              //print('*** Estado del _formKey: ${_formKey.currentState?.validate() ?? false} ***');
               if (!usersProvider.isValidLocalForm(_formKey)) return;
 
-              print('*** CONTINUARA! ***');
-
-              //if (!usersProvider.isValidForm()) return;
               String name = usersProvider.name; 
-              //usersProvider.getTodo();
 
               var found = await usersProvider.getUserByName(name);
 
               if (usersProvider.createOrUpdate == "create") {
 
-                //print('*** BUSCANDO A: $name ***');
-
                 if (found) {
 
-                  print('*** ENTRO: if ***');
-                  //usersProvider.getTodo();
                   displayDialog1(context);
-                  //usersProvider.getTodo();
-                  print('*** SALIO: if TRUE ***');
                   return;
 
                 } else {
 
-                  print('*** ENTRO en ELSE ***');
-
                   usersProvider.addUser();
+
                   displayDialog2(context);
-                  print('CONGRATULATIONS!');
+
                   usersProvider.resetUserData();
 
                 }
-
-                print('*** SALIO del TODO del IF para VALIDAR ***');
               }
-              
-              
 
               usersProvider.isLoading = false;
               

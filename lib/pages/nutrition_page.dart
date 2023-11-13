@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pantheon/pages/new_receta.dart';
 import 'package:pantheon/providers.dart/logged_user_provider.dart';
 import 'package:pantheon/providers.dart/receta_provider.dart';
-import 'package:pantheon/widgets/nutrition_card.dart';
-import 'package:pantheon/widgets/nutrition_card_1.dart';
 import 'package:provider/provider.dart';
 
 class NutritionPage extends StatelessWidget {
@@ -146,52 +144,5 @@ class ListNutrition extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class ListNutrition2 extends StatelessWidget {
-  const ListNutrition2 ({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-        children: const <Widget>[
-          NutritionCard(
-            text1: "Comida Sana", 
-            text2: "TdeA",
-            imagePath: "lib/images/comida1.jpg", 
-            uri1: "tdea.edu.co", uri2: "", uri3: "", uri4: ""
-          ),
-          NutritionCard(
-            text1: "Comida Sana X2", 
-            text2: "YouTube",
-            imagePath: "lib/images/comida1.jpg", // youtube.com/@tdeatv?si=daAeXqFQBeSmNzC1
-            uri1: "youtube.com", uri2: "/@tdeatv", uri3: "", uri4: ""
-          ), 
-          NutritionCard(
-            text1: "Comida Sana X2.1", 
-            text2: "YouTube Video",
-            imagePath: "lib/images/indianMan.jpg", // youtu.be/94RXQg8f6J0?si=9FzNJ_jq_zybaaWO
-            uri1: "youtu.be", uri2: "/94RXQg8f6J0?si=9FzNJ_jq_zybaaWO", uri3: "", uri4: ""
-          ),
-          NutritionCard(
-            text1: "Comida Sana X3 ", 
-            text2: "Other 1",
-            imagePath: "lib/images/comida1.jpg", 
-            uri1: "directoalpaladar.com", uri2: "", uri3: "", uri4: ""
-          ),
-          NutritionCard(
-            text1: "Comida Sana X3.1 ", 
-            text2: "Other 2",
-            imagePath: "lib/images/comida1.jpg", 
-            uri1: "directoalpaladar.com", uri2: "/recetario/101-recetas-sanas-para-para-tener-menu-saludable-lunes-a-domingo", uri3: "", uri4: ""
-          ),
-          NutritionCard1(
-            text1: "Ripio de papa", 
-            text2: "'Optional Text...?'", 
-            imagePath: "lib/images/sad1.jpg"
-          )
-        ],
-      );
   }
 }

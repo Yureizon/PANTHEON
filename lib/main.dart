@@ -1,4 +1,3 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:pantheon/pages/all.dart';
 import 'package:pantheon/pages/home_page.dart';
@@ -14,11 +13,9 @@ import 'package:pantheon/providers.dart/receta_provider.dart';
 import 'package:pantheon/providers.dart/users_provider.dart';
 import 'package:pantheon/providers.dart/workout_provider.dart';
 import 'package:provider/provider.dart';
-//import 'firebase_options.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  //Firebase.initializeApp().then((value) => runApp(const NavigationBarApp()));
   runApp(const NavigationBarApp());
 } 
 
@@ -39,9 +36,9 @@ class NavigationBarApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         initialRoute: "Home",
         routes: <String, WidgetBuilder>{
-          "Home": (BuildContext context) => HomePage(),
+          "Home": (BuildContext context) => const HomePage(),
           "SignIn": (BuildContext context) => const SignIn(),
-          "SignUp": (BuildContext context) => SignUp(),
+          "SignUp": (BuildContext context) => const SignUp(),
           "Navigation": (BuildContext context) => const NavigationExample(),
           "NewTraining": (BuildContext context) => const NewTraining(),
           "WorkoutList": (BuildContext context) => const WorkoutList(),

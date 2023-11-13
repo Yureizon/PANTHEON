@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pantheon/models.dart/generalUser_model.dart';
 import 'package:pantheon/providers.dart/db_provider.dart';
-import 'package:pantheon/providers.dart/logged_user_provider.dart';
 
 class UsersProvider extends ChangeNotifier {
-  GlobalKey<FormState> formKeyUsers = GlobalKey<FormState>(); // key para Sign Up
-  GlobalKey<FormState> formKeyUsers2 = GlobalKey<FormState>(); // key para Login
-  GlobalKey<FormState> formKeyUsers3 = GlobalKey<FormState>(); // key para actulizar peso
-  GlobalKey<FormState> formKeyUsers4 = GlobalKey<FormState>(); // key para actulizar altura
 
   String createOrUpdate = "create";
   int? id;
@@ -31,26 +26,6 @@ class UsersProvider extends ChangeNotifier {
     return formKey.currentState?.validate() ?? false;
   }
 
-  bool isValidForm() { // Valid for Sign Up
-    print(formKeyUsers.currentState?.validate());
-    return formKeyUsers.currentState?.validate() ?? false;
-  }
-
-  bool isValidForm2() { // Valid for Login
-    print(formKeyUsers2.currentState?.validate());
-    return formKeyUsers2.currentState?.validate() ?? false;
-  }
-
-  bool isValidForm3() { // Valid for Peso
-    print(formKeyUsers2.currentState?.validate());
-    return formKeyUsers2.currentState?.validate() ?? false;
-  }
-
-  bool isValidForm4() { // Valid for Altura
-    print(formKeyUsers2.currentState?.validate());
-    return formKeyUsers2.currentState?.validate() ?? false;
-  }
-
   Future<GeneralUser> addUser() async {
     final GeneralUser generalUser = GeneralUser(name: name, weight: weight, height: height, password: password, rol: rol);
 
@@ -66,7 +41,6 @@ class UsersProvider extends ChangeNotifier {
   }
 
   Future<bool> getUserByName(String name) async {
-    //print("Nombre que llega al provider: $name");
     final res = await DBProvider.db.getUserName(name);
     return res;
   }
@@ -78,15 +52,11 @@ class UsersProvider extends ChangeNotifier {
   }
 
   getSesion(String name) async {
-    //print("Nombre que llega al provider GETSESION: $name");
     final res = await DBProvider.db.getUserIdByName(name);
-    //print('*** ID que retorna GETSESIO: $res');
     return res;
   }
 
   Future<bool> validateUser(String name, String password) async {
-    //print("Nombre que llega al provider: $name");
-    //print("Contraseña que llega al provider: $password");
     final res = await DBProvider.db.validateUserDB(name, password);
     return res;
   }

@@ -49,7 +49,7 @@ class _CreateForm extends StatelessWidget {
               }
             },
             validator: (value) {
-              return value != '' ? null : 'The field must not be empty';
+              return value != '' ? null : 'El campo no debe estar vacío.';
             },
           ),
           const SizedBox(height: 20,),
@@ -73,23 +73,9 @@ class _CreateForm extends StatelessWidget {
               }
             },
             validator: (value) {
-              return value != '' ? null : 'The field must not be empty';
+              return value != '' ? null : 'El campo no debe estar vacío.';
             },
           ),
-          /*const SizedBox(height: 20,),
-          TextFormField(
-            autocorrect: false,
-            keyboardType: TextInputType.datetime,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: "Sin puntos o comas: 30, 60, 120",
-              labelText: "Tiempo de trabajo en minutos",
-              labelStyle: TextStyle(
-                fontSize: 20,
-              ),
-              contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-            ),
-          ),*/
           const SizedBox(height: 20,),
           MaterialButton(
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),

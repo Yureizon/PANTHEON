@@ -9,8 +9,6 @@ class WorkoutList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //WorkoutProvider workoutProvider = Provider.of<WorkoutProvider>(context);
-    //workoutProvider.loadWorkouts;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.cyanAccent,
@@ -33,12 +31,12 @@ class _List extends StatelessWidget {
       builder: (context) {
         return AlertDialog(
           elevation: 5,
-          title: const Text("WARNING"),
+          title: const Text("ALERTA"),
           shape: RoundedRectangleBorder( borderRadius: BorderRadiusDirectional.circular(10)),
           content: const Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text("Do you want to permanently delete the registry?"),
+              Text("¿Quieres eliminar permanentemente este registro?"),
               SizedBox(height: 10,)
             ],
           ),
